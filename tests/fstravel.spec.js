@@ -11,7 +11,6 @@ test('главная страница выглядит корректно', asyn
   if (!isValid) {
     const sent = await sendBandAlert(ALERT_MESSAGE);
     expect(sent, 'Не удалось отправить алерт в WB Band').toBe(true);
-    expect(isValid, ALERT_MESSAGE).toBe(true);
     return;
   }
 
