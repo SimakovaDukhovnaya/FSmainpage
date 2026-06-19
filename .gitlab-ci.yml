@@ -1,0 +1,27 @@
+image: mcr.microsoft.com/playwright:v1.61.0-noble
+
+stages:
+  - test
+
+variables:
+  npm_config_cache: $CI_PROJECT_DIR/.npm
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+
+smoke-test:
+  stage: test
+  script:
+    - npm ci
+    - npm test
+  artifacts:
+    when: always
+    paths:
+      - test-results/
+    expire_in: 7 days
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "push"
