@@ -2,8 +2,8 @@ name: Smoke test fstravel.com
 
 on:
   schedule:
-    # UTC — каждые 30 минут
-    - cron: '*/30 * * * *'
+    # UTC. Не :00/:30 — в эти минуты GitHub часто пропускает schedule.
+    - cron: '7,37 * * * *'
   workflow_dispatch:
 
 jobs:
