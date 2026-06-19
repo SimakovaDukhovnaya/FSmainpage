@@ -1,0 +1,41 @@
+name: Smoke test fstravel.com
+
+on:
+  schedule:
+    # UTC. 06:00 UTC = 09:00 МСК
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      - name: Run smoke test
+        run: npm test
+        env:
+          BAND_WEBHOOK_URL: ${{ secrets.BAND_WEBHOOK_URL }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 7
