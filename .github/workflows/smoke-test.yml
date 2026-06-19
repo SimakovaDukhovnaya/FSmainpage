@@ -2,8 +2,8 @@ name: Smoke test fstravel.com
 
 on:
   schedule:
-    # UTC. 06:00 UTC = 09:00 МСК
-    - cron: '0 6 * * *'
+    # UTC — каждые 30 минут
+    - cron: '*/30 * * * *'
   workflow_dispatch:
 
 jobs:
